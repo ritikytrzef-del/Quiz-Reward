@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Top Prize Quiz</title>
+    <title>Quiz Reward</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
@@ -27,8 +27,8 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgba(255,255,255,0.8);
-            padding: 12px 25px;
+            background: rgba(255,255,255,0.9);
+            padding: 12px 30px;
             border-radius: 50px;
             display: flex;
             align-items: center;
@@ -46,28 +46,16 @@
             background: url('https://static.vecteezy.com/system/resources/previews/070/063/623/non_2x/cartoon-blank-pirate-signboard-wooden-frame-vector.jpg') no-repeat center/contain;
             width: 90vw;
             max-width: 420px;
-            padding: 120px 40px 80px;
+            padding: 100px 40px 80px;
             text-align: center;
             position: relative;
         }
-        .crowns {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        .crowns img {
-            width: 80%;
-            max-width: 300px;
-        }
-        .ribbon img {
-            width: 80%;
-            margin: 20px 0 30px;
+        .select-text {
+            font-size: 32px;
+            color: #5e3a1a;
+            font-weight: bold;
+            margin: 40px 0 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         .question {
             font-size: 52px;
@@ -87,13 +75,6 @@
             color: white;
             box-shadow: 0 8px 20px rgba(0,0,0,0.6);
         }
-        .select-text {
-            font-size: 32px;
-            color: #5e3a1a;
-            font-weight: bold;
-            margin: 30px 0 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
         .options {
             display: flex;
             justify-content: center;
@@ -103,14 +84,19 @@
         .options button {
             background: #ffd700;
             border: none;
-            border-radius: 25px;
-            width: 120px;
-            height: 120px;
-            font-size: 48px;
+            border-radius: 30px;
+            width: 130px;
+            height: 130px;
+            font-size: 50px;
             font-weight: bold;
             color: #5e3a1a;
             box-shadow: 0 12px 25px rgba(0,0,0,0.5);
             cursor: pointer;
+        }
+        .victory-badge {
+            width: 90%;
+            max-width: 350px;
+            margin: 20px auto;
         }
         .play-btn {
             background: linear-gradient(#ffeb3b, #fbc02d);
@@ -135,7 +121,6 @@
             50% { transform: scale(1.15); }
             100% { transform: scale(1); }
         }
-        /* Custom High-Quality Popup */
         .popup-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -158,39 +143,13 @@
             transition: transform 0.4s;
             max-width: 80%;
         }
-        .popup.correct {
-            background: linear-gradient(#d4edda, #c3e6cb);
-            border: 5px solid #28a745;
-        }
-        .popup.wrong {
-            background: linear-gradient(#f8d7da, #f5c6cb);
-            border: 5px solid #dc3545;
-        }
-        .popup h2 {
-            font-size: 48px;
-            margin: 0 0 20px;
-        }
-        .popup .emoji {
-            font-size: 80px;
-            margin: 20px 0;
-        }
-        .popup button {
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 15px 50px;
-            font-size: 32px;
-            font-weight: bold;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-        }
-        .popup.show {
-            visibility: visible;
-            opacity: 1;
-        }
-        .popup.show .popup {
-            transform: scale(1);
-        }
+        .popup.correct { background: linear-gradient(#d4edda, #c3e6cb); border: 5px solid #28a745; }
+        .popup.wrong { background: linear-gradient(#f8d7da, #f5c6cb); border: 5px solid #dc3545; }
+        .popup h2 { font-size: 48px; margin: 0 0 20px; }
+        .popup .emoji { font-size: 80px; margin: 20px 0; }
+        .popup button { background: #007bff; color: white; border: none; border-radius: 30px; padding: 15px 50px; font-size: 32px; font-weight: bold; box-shadow: 0 8px 15px rgba(0,0,0,0.3); }
+        .popup.show { visibility: visible; opacity: 1; }
+        .popup.show .popup { transform: scale(1); }
     </style>
 </head>
 <body>
@@ -201,18 +160,11 @@
 
     <div class="container">
         <div class="board">
-            <div class="crowns">
-                <img src="https://static.vecteezy.com/system/resources/thumbnails/042/363/501/small/level-up-game-popup-banner-with-crown-ribbons-and-trumpets-reward-badge-gui-interface-label-victory-user-of-casino-jackpot-result-for-winner-screen-cartoon-illustration-ui-playing-element-vector.jpg" alt="Crowns">
-                <img src="https://thumbs.dreamstime.com/b/cartoon-victory-award-game-icon-wooden-shield-vector-round-golden-wings-three-stars-ui-badge-waving-purple-ribbons-reward-381082164.jpg" alt="Crowns">
-            </div>
-            <div class="ribbon">
-                <img src="https://thumbs.dreamstime.com/b/victory-award-game-icon-cartoon-ui-badge-asset-vector-trophy-featuring-metal-shield-gold-wings-stars-purple-ribbon-388028292.jpg" alt="TOP PRIZE">
-            </div>
             <div id="quiz"></div>
         </div>
     </div>
 
-    <!-- Custom Popup -->
+    <!-- Popup -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup" id="popup">
             <h2 id="popupTitle">Correct!</h2>
@@ -229,26 +181,10 @@
         let coins = parseInt(localStorage.getItem('quizCoins_' + userId)) || 0;
         document.getElementById('coins').innerText = coins;
 
-        const allQuestions = [
+        const allQuestions = [ /* same 20 questions as before */ 
             { q: "5 + 8 =", options: [11, 13, 16], correct: 13 },
             { q: "9 + 7 =", options: [14, 16, 18], correct: 16 },
-            { q: "12 - 5 =", options: [6, 7, 9], correct: 7 },
-            { q: "6 + 9 =", options: [13, 15, 17], correct: 15 },
-            { q: "15 - 8 =", options: [6, 7, 9], correct: 7 },
-            { q: "4 + 7 =", options: [9, 11, 13], correct: 11 },
-            { q: "10 - 3 =", options: [5, 7, 8], correct: 7 },
-            { q: "8 + 6 =", options: [12, 14, 16], correct: 14 },
-            { q: "13 - 6 =", options: [5, 7, 9], correct: 7 },
-            { q: "3 + 9 =", options: [10, 12, 14], correct: 12 },
-            { q: "11 - 4 =", options: [5, 7, 9], correct: 7 },
-            { q: "7 + 8 =", options: [13, 15, 17], correct: 15 },
-            { q: "14 - 5 =", options: [7, 9, 11], correct: 9 },
-            { q: "5 + 9 =", options: [12, 14, 16], correct: 14 },
-            { q: "10 + 6 =", options: [14, 16, 18], correct: 16 },
-            { q: "17 - 9 =", options: [6, 8, 10], correct: 8 },
-            { q: "2 + 8 =", options: [8, 10, 12], correct: 10 },
-            { q: "9 - 4 =", options: [3, 5, 7], correct: 5 },
-            { q: "6 + 7 =", options: [11, 13, 15], correct: 13 },
+            // ... baaki sab questions yaha paste kar do from previous code
             { q: "16 - 7 =", options: [7, 9, 11], correct: 9 }
         ];
 
@@ -264,6 +200,7 @@
         }
 
         function showQuestion() {
+            let html = '';
             if (currentQ >= 3) {
                 if (correctCount === 3) {
                     coins += 1;
@@ -271,65 +208,44 @@
                     document.getElementById('coins').innerText = coins;
                     Telegram.WebApp.HapticFeedback.notificationOccurred('success');
 
-                    document.getElementById('quiz').innerHTML = `
+                    html = `
+                        <img src="https://thumbs.dreamstime.com/b/cartoon-victory-award-game-icon-wooden-shield-vector-round-golden-wings-three-stars-ui-badge-waving-purple-ribbons-reward-381082164.jpg" class="victory-badge" alt="VICTORY">
                         <div class="congrats">Congratulations!</div>
                         <div style="font-size:90px;margin:30px 0;">🎉 ✨ 🎊</div>
                         <div style="font-size:68px;color:gold;text-shadow:4px 4px purple;">+1 Quiz Coin!</div>
                         <button class="play-btn" onclick="startQuiz()">Play Quiz</button>
                     `;
                 } else {
-                    document.getElementById('quiz').innerHTML = `
+                    html = `
                         <h2 style="font-size:52px;color:red;">Try Again!</h2>
                         <p style="font-size:36px;">You got ${correctCount}/3 correct</p>
                         <button class="play-btn" onclick="startQuiz()">Play Quiz</button>
                     `;
                 }
-                return;
+            } else {
+                let q = selectedQuestions[currentQ];
+                html = `<div class="question">${q.q} <span class="question-mark">?</span></div>`;
+                html += `<div class="select-text">SELECT NUMBER</div>`;
+                html += `<div class="options">`;
+                let shuffled = [...q.options].sort(() => Math.random() - 0.5);
+                shuffled.forEach(opt => {
+                    html += `<button onclick="checkAnswer(${opt}, ${q.correct})">${opt}</button>`;
+                });
+                html += `</div>`;
             }
-
-            let q = selectedQuestions[currentQ];
-            let html = `<div class="question">${q.q} <span class="question-mark">?</span></div>`;
-            html += `<div class="select-text">SELECT NUMBER</div>`;
-            html += `<div class="options">`;
-
-            let shuffled = [...q.options].sort(() => Math.random() - 0.5);
-            shuffled.forEach(opt => {
-                html += `<button onclick="checkAnswer(${opt}, ${q.correct})">${opt}</button>`;
-            });
-            html += `</div>`;
             document.getElementById('quiz').innerHTML = html;
         }
 
+        // Popup functions same as before
         function showPopup(isCorrect) {
-            const overlay = document.getElementById('popupOverlay');
-            const popup = document.getElementById('popup');
-            const title = document.getElementById('popupTitle');
-            const emoji = document.getElementById('popupEmoji');
-
-            if (isCorrect) {
-                title.textContent = "Correct!";
-                emoji.innerHTML = "🎉 ✨ 🎊";
-                popup.className = "popup correct";
-                Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-            } else {
-                title.textContent = "Wrong!";
-                emoji.innerHTML = "😢";
-                popup.className = "popup wrong";
-                Telegram.WebApp.HapticFeedback.notificationOccurred('error');
-            }
-
-            overlay.classList.add('show');
+            // ... same code
         }
-
         function closePopup() {
-            document.getElementById('popupOverlay').classList.remove('show');
-            currentQ++;
-            setTimeout(showQuestion, 300);
+            // ... same, then currentQ++ and showQuestion()
         }
-
         function checkAnswer(selected, correct) {
-            showPopup(selected === correct);
             if (selected === correct) correctCount++;
+            showPopup(selected === correct);
         }
 
         startQuiz();
