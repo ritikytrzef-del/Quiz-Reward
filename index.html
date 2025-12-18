@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Prize Quiz</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: url('https://thumbs.dreamstime.com/b/tropical-island-pirate-ship-under-sail-ocean-treasure-cheast-tropical-palms-sea-landscape-coast-beach-sand-tropical-island-233506186.jpg') no-repeat center center;
+            background-size: cover;
+            font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+        }
+        .board {
+            background: url('https://c8.alamy.com/comp/2GH075G/set-wood-planks-with-parchment-paper-in-cartoon-style-level-achievement-game-screen-isolated-on-white-background-frame-medieval-panel-menu-empty-gui-asset-signboard-vector-illustration-2GH075G.jpg') no-repeat center;
+            background-size: 100% 100%;
+            padding: 80px 40px 60px;
+            aspect-ratio: 1 / 1.3;
+        }
+        .stars {
+            margin-bottom: 10px;
+        }
+        .stars img {
+            width: 50px;
+            margin: 0 8px;
+        }
+        .ribbon img {
+            width: 70%;
+            margin-bottom: 20px;
+        }
+        .question {
+            font-size: 48px;
+            color: #5e3a1a;
+            font-weight: bold;
+            margin: 30px 0 20px;
+        }
+        .question-mark {
+            display: inline-block;
+            background: #ffd700;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            font-size: 60px;
+            color: #fff;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            margin-left: 10px;
+        }
+        .select-text {
+            font-size: 28px;
+            color: #5e3a1a;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .options button {
+            background: url('https://thumbs.dreamstime.com/b/video-game-button-set-cartoon-style-flat-vector-illustration-mobile-app-button-collection-video-game-button-set-cartoon-330942287.jpg') no-repeat center;
+            background-size: contain;
+            width: 100px;
+            height: 100px;
+            border: none;
+            font-size: 36px;
+            font-weight: bold;
+            color: #5e3a1a;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+        }
+        .coin-bar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.6);
+            padding: 10px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #5e3a1a;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .coin-bar img {
+            width: 60px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="coin-bar">
+        <img src="https://media.istockphoto.com/id/1126642137/vector/gems-and-gold-coins-vector-cartoon-set-of-game-icons-isolated-on-a-transparent-background.jpg" alt="Coin">
+        <span id="coins">0</span>
+    </div>
+
+    <div class="container">
+        <div class="board">
+            <div class="stars">
+                <img src="https://media.istockphoto.com/id/1254973475/vector/stars-symbol-emblem-icon.jpg" alt="star">
+                <img src="https://media.istockphoto.com/id/1254973475/vector/stars-symbol-emblem-icon.jpg" alt="star">
+                <img src="https://media.istockphoto.com/id/1254973475/vector/stars-symbol-emblem-icon.jpg" alt="star">
+            </div>
+            <div class="ribbon">
+                <img src="https://thumbs.dreamstime.com/b/level-complete-templates-stars-rank-purple-ribbon-assets-games-design-cartoon-game-rating-icons-ranking-elements-gui-107010572.jpg" alt="TOP PRIZE">
+            </div>
+            <div id="quiz"></div>
+        </div>
+    </div>
+
+    <script>
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+
+        let userId = Telegram.WebApp.initDataUnsafe.user?.id || 'guest';
+        let coins = parseInt(localStorage.getItem('quizCoins_' + userId)) || 0;
+        document.getElementById('coins').innerText = coins;
+
+        const questions = [
+            { q: "5 + 8 =", options: [13, 16, 67], correct: 13 },
+            { q: "9 + 7 =", options: [14, 16, 18], correct: 16 },
+            { q: "12 - 5 =", options: [6, 7, 9], correct: 7 }
+        ];
+
+        let currentQ = 0;
+        let correctCount = 0;
+
+        function showQuestion() {
+            if (currentQ >= questions.length) {
+                if (correctCount === questions.length) {
+                    coins += 1;
+                    localStorage.setItem('quizCoins_' + userId, coins);
+                    document.getElementById('coins').innerText = coins;
+                    Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+                    document.getElementById('quiz').innerHTML = `<h2 style="font-size:48px;color:#00aa00;">Congratulations! 🎉<br>+1 Quiz Coin!</h2>`;
+                } else {
+                    document.getElementById('quiz').innerHTML = `<h2 style="font-size:48px;color:red;">Try Again!<br>You got ${correctCount}/3 correct.</h2><p style="font-size:24px;">Refresh to play again.</p>`;
+                }
+                return;
+            }
+
+            let q = questions[currentQ];
+            let html = `<div class="question">${q.q} <span class="question-mark">?</span></div>`;
+            html += `<div class="select-text">SELECT NUMBER</div>`;
+            html += `<div class="options">`;
+
+            let shuffled = [...q.options].sort(() => Math.random() - 0.5);
+            shuffled.forEach(opt => {
+                html += `<button onclick="checkAnswer(${opt}, ${q.correct})">${opt}</button>`;
+            });
+            html += `</div>`;
+            document.getElementById('quiz').innerHTML = html;
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                correctCount++;
+                Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+                alert("Correct! 👍");
+            } else {
+                Telegram.WebApp.HapticFeedback.notificationOccurred('error');
+                alert("Wrong! 😔");
+            }
+            currentQ++;
+            setTimeout(showQuestion, 800);
+        }
+
+        showQuestion();
+    </script>
+</body>
+</html>
