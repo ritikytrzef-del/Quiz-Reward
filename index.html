@@ -39,48 +39,28 @@
             z-index: 30;
         }
         .coin-bar img {
-            width: 50px;
+            width: 60px;
             margin-right: 10px;
         }
-        .board {
-            position: relative;
-            width: 90vw;
-            max-width: 420px;
-            height: 70vh;
-            pointer-events: none; /* Important: board background clicks block न करे */
-        }
-        .board-bg {
+        .top-area {
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url('https://thumbs.dreamstime.com/b/cartoon-blank-pirate-signboard-wooden-frame-stretched-tan-leather-fabric-tied-ropes-vector-heraldry-icon-rustic-sign-board-401035601.jpg') no-repeat center/contain;
-            z-index: 1;
-        }
-        .content {
-            position: relative;
-            z-index: 10;
+            top: 80px;
             width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            text-align: center;
+            z-index: 20;
+        }
+        .question-mark-big {
+            width: 120px;
+            height: 120px;
+            background: #ffd700;
+            border-radius: 50%;
+            display: inline-flex;
             align-items: center;
-            padding: 80px 40px 60px;
-            box-sizing: border-box;
-            pointer-events: none; /* content area clicks pass through */
-        }
-        .content > * {
-            pointer-events: auto; /* buttons, text etc clickable */
-        }
-        .play-btn {
-            background: linear-gradient(#ffeb3b, #fbc02d);
-            border: none;
-            border-radius: 40px;
-            padding: 25px 70px;
-            font-size: 42px;
-            font-weight: bold;
-            color: #5e3a1a;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-            cursor: pointer;
+            justify-content: center;
+            font-size: 90px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            margin-bottom: 20px;
         }
         .question {
             font-size: 56px;
@@ -89,29 +69,45 @@
             margin: 20px 0;
             text-shadow: 4px 4px 8px rgba(0,0,0,0.5);
         }
-        .question-mark {
-            display: inline-block;
-            background: #ffd700;
-            width: 100px;
-            height: 100px;
-            line-height: 100px;
-            border-radius: 50%;
-            font-size: 80px;
-            color: white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        .board {
+            position: relative;
+            width: 90vw;
+            max-width: 420px;
+            padding: 140px 40px 80px;
+            text-align: center;
+            z-index: 10;
+        }
+        .board-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://thumbs.dreamstime.com/b/cartoon-blank-pirate-signboard-wooden-frame-stretched-tan-leather-fabric-tied-ropes-vector-heraldry-icon-rustic-sign-board-401035601.jpg') no-repeat center/contain;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .content {
+            position: relative;
+            z-index: 10;
+            pointer-events: auto;
         }
         .select-text {
-            font-size: 32px;
+            font-size: 36px;
             color: #5e3a1a;
             font-weight: bold;
             margin: 40px 0 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
+        /* 2,1 Pattern for Options */
         .options {
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
             gap: 30px;
+            width: 100%;
+        }
+        .options-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
         }
         .options button {
             background: #ffd700;
@@ -124,13 +120,24 @@
             color: #5e3a1a;
             box-shadow: 0 12px 30px rgba(0,0,0,0.6);
             cursor: pointer;
-            pointer-events: auto !important;
-            z-index: 20;
+            flex: 1;
+            max-width: 160px;
+        }
+        .play-btn {
+            background: linear-gradient(#ffeb3b, #fbc02d);
+            border: none;
+            border-radius: 40px;
+            padding: 25px 70px;
+            font-size: 42px;
+            font-weight: bold;
+            color: #5e3a1a;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+            cursor: pointer;
         }
         .victory-badge {
             width: 90%;
             max-width: 380px;
-            margin: 30px auto;
+            margin: 20px auto;
         }
         .congrats {
             color: #00aa00;
@@ -178,6 +185,10 @@
     <div class="coin-bar">
         <img src="https://img.itch.zone/aW1nLzIwNTc2Nzk3LnBuZw==/original/6mS7nv.png" alt="Coins">
         <span id="coins">0</span>
+    </div>
+
+    <div class="top-area">
+        <div class="question-mark-big">?</div>
     </div>
 
     <div class="container">
@@ -240,7 +251,10 @@
         }
 
         function showQuestion() {
-            let html = '';
+            let html = '<div class="question">' + selectedQuestions[currentQ].q + '</div>';
+            html += '<div class="select-text">SELECT NUMBER</div>';
+            html += '<div class="options">';
+
             if (currentQ >= 3) {
                 if (correctCount === 3) {
                     coins += 1;
@@ -249,7 +263,7 @@
                     Telegram.WebApp.HapticFeedback.notificationOccurred('success');
 
                     html = `
-                        <img src="https://thumbs.dreamstime.com/b/cartoon-victory-award-game-icon-wooden-shield-vector-round-golden-wings-three-stars-ui-badge-waving-purple-ribbons-reward-381082164.jpg" class="victory-badge" alt="Victory">
+                        <img src="https://thumbs.dreamstime.com/b/cartoon-victory-award-game-icon-wooden-shield-vector-round-golden-wings-three-stars-ui-badge-waving-purple-ribbons-reward-381082164.jpg" class="victory-badge">
                         <div class="congrats">Congratulations!</div>
                         <div style="font-size:90px;margin:30px 0;">🎉 ✨ 🎊</div>
                         <div style="font-size:68px;color:gold;text-shadow:4px 4px purple;">+1 Quiz Coin!</div>
@@ -263,15 +277,15 @@
                     `;
                 }
             } else {
-                let q = selectedQuestions[currentQ];
-                html = `<div class="question">${q.q} <span class="question-mark">?</span></div>
-                        <div class="select-text">SELECT NUMBER</div>
-                        <div class="options">`;
-                [...q.options].sort(() => Math.random() - 0.5).forEach(opt => {
-                    html += `<button onclick="checkAnswer(${opt}, ${q.correct})">${opt}</button>`;
-                });
-                html += `</div>`;
+                let opts = [...selectedQuestions[currentQ].options].sort(() => Math.random() - 0.5);
+                // 2,1 Pattern
+                html += '<div class="options-row">';
+                html += `<button onclick="checkAnswer(${opts[0]}, ${selectedQuestions[currentQ].correct})">${opts[0]}</button>`;
+                html += `<button onclick="checkAnswer(${opts[1]}, ${selectedQuestions[currentQ].correct})">${opts[1]}</button>`;
+                html += '</div>';
+                html += `<button onclick="checkAnswer(${opts[2]}, ${selectedQuestions[currentQ].correct})">${opts[2]}</button>`;
             }
+            html += '</div>';
             document.getElementById('gameBoard').innerHTML = html;
         }
 
