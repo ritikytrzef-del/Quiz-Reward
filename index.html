@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            background: url('https://thumbs.dreamstime.com/b/cartoon-tropical-beach-rocky-cliffs-rich-foliage-blue-ocean-sky-clouds-palm-trees-sunlight-shore-summer-vacation-paradise-385707613.jpg') no-repeat center center/cover;
+            background: url('https://thumbs.dreamstime.com/b/background-environment-d-abstract-tropical-pirate-ship-deck-adventure-battle-mobile-game-cartoon-style-art-287784895.jpg') no-repeat center center/cover;
             font-family: 'Arial Black', Arial, sans-serif;
             overflow: hidden;
         }
@@ -28,48 +28,53 @@
             top: 15px;
             right: 15px;
             background: rgba(255,255,255,0.8);
-            padding: 10px 20px;
-            border-radius: 40px;
+            padding: 12px 25px;
+            border-radius: 50px;
             display: flex;
             align-items: center;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
             color: #5e3a1a;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
             z-index: 10;
         }
         .coin-bar img {
-            width: 60px;
-            margin-right: 10px;
+            width: 70px;
+            margin-right: 15px;
         }
         .board {
-            background: url('https://media.istockphoto.com/id/2228177056/vector/pirate-wood-signboard-banner-with-ropes-and-anchor.jpg?s=612x612&w=0&k=20&c=56C1t72ywshOjgL0h1Pw8V729StiYSYP2xQYdP4wvGc=') no-repeat center/contain;
+            background: url('https://static.vecteezy.com/system/resources/previews/070/063/623/non_2x/cartoon-blank-pirate-signboard-wooden-frame-vector.jpg') no-repeat center/contain;
             width: 90vw;
             max-width: 420px;
-            padding: 100px 40px 80px;
+            padding: 120px 40px 80px;
             text-align: center;
             position: relative;
         }
-        .stars {
+        .crowns {
             position: absolute;
-            top: 30px;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
+            width: 90%;
             display: flex;
-            gap: 15px;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
-        .stars img {
-            width: 60px;
+        .crowns img {
+            width: 80%;
+            max-width: 300px;
         }
         .ribbon img {
             width: 80%;
-            margin-bottom: 30px;
+            margin: 20px 0 30px;
         }
         .question {
-            font-size: 50px;
+            font-size: 52px;
             color: #5e3a1a;
             font-weight: bold;
             margin: 20px 0;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.5);
         }
         .question-mark {
             display: inline-block;
@@ -80,54 +85,111 @@
             border-radius: 50%;
             font-size: 70px;
             color: white;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
         }
         .select-text {
-            font-size: 30px;
+            font-size: 32px;
             color: #5e3a1a;
             font-weight: bold;
             margin: 30px 0 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         .options {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 25px;
+            gap: 30px;
         }
         .options button {
             background: #ffd700;
             border: none;
-            border-radius: 20px;
-            width: 110px;
-            height: 110px;
-            font-size: 40px;
+            border-radius: 25px;
+            width: 120px;
+            height: 120px;
+            font-size: 48px;
             font-weight: bold;
             color: #5e3a1a;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.5);
             cursor: pointer;
         }
         .play-btn {
             background: linear-gradient(#ffeb3b, #fbc02d);
             border: none;
-            border-radius: 30px;
-            padding: 20px 50px;
-            font-size: 36px;
+            border-radius: 40px;
+            padding: 25px 60px;
+            font-size: 40px;
             font-weight: bold;
             color: #5e3a1a;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.5);
             cursor: pointer;
-            margin-top: 40px;
+            margin-top: 50px;
         }
         .congrats {
             color: #00aa00;
-            font-size: 50px;
-            text-shadow: 3px 3px #ffeb3b;
+            font-size: 56px;
+            text-shadow: 4px 4px #ffeb3b;
             animation: pulse 1.5s infinite;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.15); }
             100% { transform: scale(1); }
+        }
+        /* Custom High-Quality Popup */
+        .popup-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        .popup {
+            background: white;
+            border-radius: 30px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            transform: scale(0.8);
+            transition: transform 0.4s;
+            max-width: 80%;
+        }
+        .popup.correct {
+            background: linear-gradient(#d4edda, #c3e6cb);
+            border: 5px solid #28a745;
+        }
+        .popup.wrong {
+            background: linear-gradient(#f8d7da, #f5c6cb);
+            border: 5px solid #dc3545;
+        }
+        .popup h2 {
+            font-size: 48px;
+            margin: 0 0 20px;
+        }
+        .popup .emoji {
+            font-size: 80px;
+            margin: 20px 0;
+        }
+        .popup button {
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 15px 50px;
+            font-size: 32px;
+            font-weight: bold;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+        .popup.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .popup.show .popup {
+            transform: scale(1);
         }
     </style>
 </head>
@@ -139,15 +201,23 @@
 
     <div class="container">
         <div class="board">
-            <div class="stars">
-                <img src="https://img.itch.zone/aW1nLzIzODcxMDEzLnBuZw==/original/1ts5Bx.png" alt="star">
-                <img src="https://img.itch.zone/aW1nLzIzODcxMDEzLnBuZw==/original/1ts5Bx.png" alt="star">
-                <img src="https://img.itch.zone/aW1nLzIzODcxMDEzLnBuZw==/original/1ts5Bx.png" alt="star">
+            <div class="crowns">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/042/363/501/small/level-up-game-popup-banner-with-crown-ribbons-and-trumpets-reward-badge-gui-interface-label-victory-user-of-casino-jackpot-result-for-winner-screen-cartoon-illustration-ui-playing-element-vector.jpg" alt="Crowns">
+                <img src="https://thumbs.dreamstime.com/b/cartoon-victory-award-game-icon-wooden-shield-vector-round-golden-wings-three-stars-ui-badge-waving-purple-ribbons-reward-381082164.jpg" alt="Crowns">
             </div>
             <div class="ribbon">
-                <img src="https://thumbs.dreamstime.com/b/level-complete-templates-stars-rank-purple-ribbon-assets-games-design-cartoon-game-rating-icons-ranking-elements-gui-107010572.jpg" alt="TOP PRIZE">
+                <img src="https://thumbs.dreamstime.com/b/victory-award-game-icon-cartoon-ui-badge-asset-vector-trophy-featuring-metal-shield-gold-wings-stars-purple-ribbon-388028292.jpg" alt="TOP PRIZE">
             </div>
             <div id="quiz"></div>
+        </div>
+    </div>
+
+    <!-- Custom Popup -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup" id="popup">
+            <h2 id="popupTitle">Correct!</h2>
+            <div class="emoji" id="popupEmoji">🎉</div>
+            <button onclick="closePopup()">OK</button>
         </div>
     </div>
 
@@ -159,7 +229,6 @@
         let coins = parseInt(localStorage.getItem('quizCoins_' + userId)) || 0;
         document.getElementById('coins').innerText = coins;
 
-        // 20 Easy Questions (Addition & Subtraction only)
         const allQuestions = [
             { q: "5 + 8 =", options: [11, 13, 16], correct: 13 },
             { q: "9 + 7 =", options: [14, 16, 18], correct: 16 },
@@ -188,10 +257,7 @@
         let correctCount = 0;
 
         function startQuiz() {
-            // Pick 3 random questions
-            selectedQuestions = [...allQuestions]
-                .sort(() => Math.random() - Math.random())
-                .slice(0, 3);
+            selectedQuestions = [...allQuestions].sort(() => Math.random() - 0.5).slice(0, 3);
             currentQ = 0;
             correctCount = 0;
             showQuestion();
@@ -207,14 +273,14 @@
 
                     document.getElementById('quiz').innerHTML = `
                         <div class="congrats">Congratulations!</div>
-                        <div style="font-size:80px;margin:20px 0;">🎉 ✨ 🎊</div>
-                        <div style="font-size:60px;color:gold;text-shadow:3px 3px purple;">+1 Quiz Coin!</div>
+                        <div style="font-size:90px;margin:30px 0;">🎉 ✨ 🎊</div>
+                        <div style="font-size:68px;color:gold;text-shadow:4px 4px purple;">+1 Quiz Coin!</div>
                         <button class="play-btn" onclick="startQuiz()">Play Quiz</button>
                     `;
                 } else {
                     document.getElementById('quiz').innerHTML = `
-                        <h2 style="font-size:48px;color:red;">Try Again!</h2>
-                        <p style="font-size:32px;">You got ${correctCount}/3 correct</p>
+                        <h2 style="font-size:52px;color:red;">Try Again!</h2>
+                        <p style="font-size:36px;">You got ${correctCount}/3 correct</p>
                         <button class="play-btn" onclick="startQuiz()">Play Quiz</button>
                     `;
                 }
@@ -234,20 +300,38 @@
             document.getElementById('quiz').innerHTML = html;
         }
 
-        function checkAnswer(selected, correct) {
-            if (selected === correct) {
-                correctCount++;
+        function showPopup(isCorrect) {
+            const overlay = document.getElementById('popupOverlay');
+            const popup = document.getElementById('popup');
+            const title = document.getElementById('popupTitle');
+            const emoji = document.getElementById('popupEmoji');
+
+            if (isCorrect) {
+                title.textContent = "Correct!";
+                emoji.innerHTML = "🎉 ✨ 🎊";
+                popup.className = "popup correct";
                 Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-                alert("Correct! 🎉");
             } else {
+                title.textContent = "Wrong!";
+                emoji.innerHTML = "😢";
+                popup.className = "popup wrong";
                 Telegram.WebApp.HapticFeedback.notificationOccurred('error');
-                alert("Wrong! 😢");
             }
-            currentQ++;
-            setTimeout(showQuestion, 800);
+
+            overlay.classList.add('show');
         }
 
-        // Start the first quiz automatically
+        function closePopup() {
+            document.getElementById('popupOverlay').classList.remove('show');
+            currentQ++;
+            setTimeout(showQuestion, 300);
+        }
+
+        function checkAnswer(selected, correct) {
+            showPopup(selected === correct);
+            if (selected === correct) correctCount++;
+        }
+
         startQuiz();
     </script>
 </body>
