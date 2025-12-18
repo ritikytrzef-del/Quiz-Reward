@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Top Prize Quiz</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
@@ -10,95 +10,124 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            background: url('https://thumbs.dreamstime.com/b/tropical-island-pirate-ship-under-sail-ocean-treasure-cheast-tropical-palms-sea-landscape-coast-beach-sand-tropical-island-233506186.jpg') no-repeat center center;
-            background-size: cover;
-            font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: url('https://thumbs.dreamstime.com/b/cartoon-tropical-beach-rocky-cliffs-rich-foliage-blue-ocean-sky-clouds-palm-trees-sunlight-shore-summer-vacation-paradise-385707613.jpg') no-repeat center center/cover;
+            font-family: 'Arial Black', Arial, sans-serif;
+            overflow: hidden;
         }
         .container {
-            width: 90%;
-            max-width: 420px;
-            text-align: center;
-            position: relative;
-        }
-        .board {
-            background: url('https://c8.alamy.com/comp/2GH075G/set-wood-planks-with-parchment-paper-in-cartoon-style-level-achievement-game-screen-isolated-on-white-background-frame-medieval-panel-menu-empty-gui-asset-signboard-vector-illustration-2GH075G.jpg') no-repeat center;
-            background-size: 100% 100%;
-            padding: 80px 40px 60px;
-            aspect-ratio: 1 / 1.3;
-        }
-        .stars {
-            margin-bottom: 10px;
-        }
-        .stars img {
-            width: 50px;
-            margin: 0 8px;
-        }
-        .ribbon img {
-            width: 70%;
-            margin-bottom: 20px;
-        }
-        .question {
-            font-size: 48px;
-            color: #5e3a1a;
-            font-weight: bold;
-            margin: 30px 0 20px;
-        }
-        .question-mark {
-            display: inline-block;
-            background: #ffd700;
-            width: 80px;
-            height: 80px;
-            line-height: 80px;
-            border-radius: 50%;
-            font-size: 60px;
-            color: #fff;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-            margin-left: 10px;
-        }
-        .select-text {
-            font-size: 28px;
-            color: #5e3a1a;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        .options {
+            height: 100%;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             justify-content: center;
-            gap: 20px;
-        }
-        .options button {
-            background: url('https://thumbs.dreamstime.com/b/video-game-button-set-cartoon-style-flat-vector-illustration-mobile-app-button-collection-video-game-button-set-cartoon-330942287.jpg') no-repeat center;
-            background-size: contain;
-            width: 100px;
-            height: 100px;
-            border: none;
-            font-size: 36px;
-            font-weight: bold;
-            color: #5e3a1a;
-            cursor: pointer;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
         .coin-bar {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.6);
-            padding: 10px 25px;
-            border-radius: 50px;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.8);
+            padding: 10px 20px;
+            border-radius: 40px;
             display: flex;
             align-items: center;
             font-size: 28px;
             font-weight: bold;
             color: #5e3a1a;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 10;
         }
         .coin-bar img {
             width: 60px;
             margin-right: 10px;
+        }
+        .board {
+            background: url('https://media.istockphoto.com/id/2228177056/vector/pirate-wood-signboard-banner-with-ropes-and-anchor.jpg?s=612x612&w=0&k=20&c=56C1t72ywshOjgL0h1Pw8V729StiYSYP2xQYdP4wvGc=') no-repeat center/contain;
+            width: 90vw;
+            max-width: 420px;
+            padding: 100px 40px 80px;
+            text-align: center;
+            position: relative;
+        }
+        .stars {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+        .stars img {
+            width: 60px;
+        }
+        .ribbon img {
+            width: 80%;
+            margin-bottom: 30px;
+        }
+        .question {
+            font-size: 50px;
+            color: #5e3a1a;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .question-mark {
+            display: inline-block;
+            background: #ffd700;
+            width: 90px;
+            height: 90px;
+            line-height: 90px;
+            border-radius: 50%;
+            font-size: 70px;
+            color: white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+        .select-text {
+            font-size: 30px;
+            color: #5e3a1a;
+            font-weight: bold;
+            margin: 30px 0 20px;
+        }
+        .options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+        .options button {
+            background: #ffd700;
+            border: none;
+            border-radius: 20px;
+            width: 110px;
+            height: 110px;
+            font-size: 40px;
+            font-weight: bold;
+            color: #5e3a1a;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            cursor: pointer;
+        }
+        .play-btn {
+            background: linear-gradient(#ffeb3b, #fbc02d);
+            border: none;
+            border-radius: 30px;
+            padding: 20px 50px;
+            font-size: 36px;
+            font-weight: bold;
+            color: #5e3a1a;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            cursor: pointer;
+            margin-top: 40px;
+        }
+        .congrats {
+            color: #00aa00;
+            font-size: 50px;
+            text-shadow: 3px 3px #ffeb3b;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
@@ -111,9 +140,9 @@
     <div class="container">
         <div class="board">
             <div class="stars">
-                <img src="https://media.istockphoto.com/id/1254973475/vector/stars-symbol-emblem-icon.jpg" alt="star">
-                <img src="https://media.istockphoto.com/id/1254973475/vector/stars-symbol-emblem-icon.jpg" alt="star">
-                <img src="https://media.istockphoto.com/id/1254973475/vector/stars-symbol-emblem-icon.jpg" alt="star">
+                <img src="https://img.itch.zone/aW1nLzIzODcxMDEzLnBuZw==/original/1ts5Bx.png" alt="star">
+                <img src="https://img.itch.zone/aW1nLzIzODcxMDEzLnBuZw==/original/1ts5Bx.png" alt="star">
+                <img src="https://img.itch.zone/aW1nLzIzODcxMDEzLnBuZw==/original/1ts5Bx.png" alt="star">
             </div>
             <div class="ribbon">
                 <img src="https://thumbs.dreamstime.com/b/level-complete-templates-stars-rank-purple-ribbon-assets-games-design-cartoon-game-rating-icons-ranking-elements-gui-107010572.jpg" alt="TOP PRIZE">
@@ -130,30 +159,69 @@
         let coins = parseInt(localStorage.getItem('quizCoins_' + userId)) || 0;
         document.getElementById('coins').innerText = coins;
 
-        const questions = [
-            { q: "5 + 8 =", options: [13, 16, 67], correct: 13 },
+        // 20 Easy Questions (Addition & Subtraction only)
+        const allQuestions = [
+            { q: "5 + 8 =", options: [11, 13, 16], correct: 13 },
             { q: "9 + 7 =", options: [14, 16, 18], correct: 16 },
-            { q: "12 - 5 =", options: [6, 7, 9], correct: 7 }
+            { q: "12 - 5 =", options: [6, 7, 9], correct: 7 },
+            { q: "6 + 9 =", options: [13, 15, 17], correct: 15 },
+            { q: "15 - 8 =", options: [6, 7, 9], correct: 7 },
+            { q: "4 + 7 =", options: [9, 11, 13], correct: 11 },
+            { q: "10 - 3 =", options: [5, 7, 8], correct: 7 },
+            { q: "8 + 6 =", options: [12, 14, 16], correct: 14 },
+            { q: "13 - 6 =", options: [5, 7, 9], correct: 7 },
+            { q: "3 + 9 =", options: [10, 12, 14], correct: 12 },
+            { q: "11 - 4 =", options: [5, 7, 9], correct: 7 },
+            { q: "7 + 8 =", options: [13, 15, 17], correct: 15 },
+            { q: "14 - 5 =", options: [7, 9, 11], correct: 9 },
+            { q: "5 + 9 =", options: [12, 14, 16], correct: 14 },
+            { q: "10 + 6 =", options: [14, 16, 18], correct: 16 },
+            { q: "17 - 9 =", options: [6, 8, 10], correct: 8 },
+            { q: "2 + 8 =", options: [8, 10, 12], correct: 10 },
+            { q: "9 - 4 =", options: [3, 5, 7], correct: 5 },
+            { q: "6 + 7 =", options: [11, 13, 15], correct: 13 },
+            { q: "16 - 7 =", options: [7, 9, 11], correct: 9 }
         ];
 
+        let selectedQuestions = [];
         let currentQ = 0;
         let correctCount = 0;
 
+        function startQuiz() {
+            // Pick 3 random questions
+            selectedQuestions = [...allQuestions]
+                .sort(() => Math.random() - Math.random())
+                .slice(0, 3);
+            currentQ = 0;
+            correctCount = 0;
+            showQuestion();
+        }
+
         function showQuestion() {
-            if (currentQ >= questions.length) {
-                if (correctCount === questions.length) {
+            if (currentQ >= 3) {
+                if (correctCount === 3) {
                     coins += 1;
                     localStorage.setItem('quizCoins_' + userId, coins);
                     document.getElementById('coins').innerText = coins;
                     Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-                    document.getElementById('quiz').innerHTML = `<h2 style="font-size:48px;color:#00aa00;">Congratulations! 🎉<br>+1 Quiz Coin!</h2>`;
+
+                    document.getElementById('quiz').innerHTML = `
+                        <div class="congrats">Congratulations!</div>
+                        <div style="font-size:80px;margin:20px 0;">🎉 ✨ 🎊</div>
+                        <div style="font-size:60px;color:gold;text-shadow:3px 3px purple;">+1 Quiz Coin!</div>
+                        <button class="play-btn" onclick="startQuiz()">Play Quiz</button>
+                    `;
                 } else {
-                    document.getElementById('quiz').innerHTML = `<h2 style="font-size:48px;color:red;">Try Again!<br>You got ${correctCount}/3 correct.</h2><p style="font-size:24px;">Refresh to play again.</p>`;
+                    document.getElementById('quiz').innerHTML = `
+                        <h2 style="font-size:48px;color:red;">Try Again!</h2>
+                        <p style="font-size:32px;">You got ${correctCount}/3 correct</p>
+                        <button class="play-btn" onclick="startQuiz()">Play Quiz</button>
+                    `;
                 }
                 return;
             }
 
-            let q = questions[currentQ];
+            let q = selectedQuestions[currentQ];
             let html = `<div class="question">${q.q} <span class="question-mark">?</span></div>`;
             html += `<div class="select-text">SELECT NUMBER</div>`;
             html += `<div class="options">`;
@@ -170,16 +238,17 @@
             if (selected === correct) {
                 correctCount++;
                 Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-                alert("Correct! 👍");
+                alert("Correct! 🎉");
             } else {
                 Telegram.WebApp.HapticFeedback.notificationOccurred('error');
-                alert("Wrong! 😔");
+                alert("Wrong! 😢");
             }
             currentQ++;
             setTimeout(showQuestion, 800);
         }
 
-        showQuestion();
+        // Start the first quiz automatically
+        startQuiz();
     </script>
 </body>
 </html>
