@@ -36,19 +36,40 @@
             font-weight: bold;
             color: #5e3a1a;
             box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-            z-index: 20;
+            z-index: 30;
         }
         .coin-bar img {
             width: 50px;
             margin-right: 10px;
         }
         .board {
-            background: url('https://thumbs.dreamstime.com/b/cartoon-blank-pirate-signboard-wooden-frame-stretched-tan-leather-fabric-tied-ropes-vector-heraldry-icon-rustic-sign-board-401035601.jpg') no-repeat center/contain;
+            position: relative;
             width: 90vw;
             max-width: 420px;
-            padding: 120px 40px 100px;
-            text-align: center;
+            height: 70vh;
+            pointer-events: none; /* Important: board background clicks block न करे */
+        }
+        .board-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://thumbs.dreamstime.com/b/cartoon-blank-pirate-signboard-wooden-frame-stretched-tan-leather-fabric-tied-ropes-vector-heraldry-icon-rustic-sign-board-401035601.jpg') no-repeat center/contain;
+            z-index: 1;
+        }
+        .content {
             position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 40px 60px;
+            box-sizing: border-box;
+            pointer-events: none; /* content area clicks pass through */
+        }
+        .content > * {
+            pointer-events: auto; /* buttons, text etc clickable */
         }
         .play-btn {
             background: linear-gradient(#ffeb3b, #fbc02d);
@@ -60,7 +81,6 @@
             color: #5e3a1a;
             box-shadow: 0 12px 30px rgba(0,0,0,0.6);
             cursor: pointer;
-            margin-top: 20px;
         }
         .question {
             font-size: 56px;
@@ -104,7 +124,8 @@
             color: #5e3a1a;
             box-shadow: 0 12px 30px rgba(0,0,0,0.6);
             cursor: pointer;
-            pointer-events: auto;
+            pointer-events: auto !important;
+            z-index: 20;
         }
         .victory-badge {
             width: 90%;
@@ -160,12 +181,14 @@
     </div>
 
     <div class="container">
-        <div class="board" id="gameBoard">
-            <button class="play-btn" onclick="startQuiz()">Play Quiz</button>
+        <div class="board">
+            <div class="board-bg"></div>
+            <div class="content" id="gameBoard">
+                <button class="play-btn" onclick="startQuiz()">Play Quiz</button>
+            </div>
         </div>
     </div>
 
-    <!-- Popup -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup" id="popup">
             <h2 id="popupTitle">Correct!</h2>
