@@ -7,9 +7,11 @@
     
     <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
     <script src="https://ad.gigapub.tech/script?id=5482"></script>
-    <script src='//libtl.com/sdk.js' data-zone='52' data-sdk='show_52'></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src='//libtl.com/sdk.js' data-zone='10545411' data-sdk='show_10545411'></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <style>
@@ -46,6 +48,7 @@
         
         /* Premium Slot */
         .premium-slot { grid-column: span 2; background: linear-gradient(135deg, #fffbeb 0%, #fff 100%); border: 2px solid #ffd700; }
+        
         .btn-watch { width: 100%; border: none; background: var(--blue-gradient); color: white; padding: 12px; border-radius: 14px; font-weight: 700; cursor: pointer; }
         .btn-premium { background: var(--gold-gradient); color: #854d0e; }
 
@@ -197,7 +200,10 @@
                     <button class="btn-watch btn-premium" onclick="runRichAds()">START TASK</button>
                 </div>
             `;
-            for(let i=1; i<=4; i++) {
+            // NOTE: Monetag button removed, it now auto-runs on app open.
+            
+            // Standard Ads
+            for(let i=1; i<=2; i++) {
                 container.innerHTML += `
                     <div class="ad-card">
                         <i class="fa-solid fa-video" style="color:#3a7bd5; font-size:20px; margin-bottom:10px;"></i><br>
@@ -312,9 +318,29 @@
 
         window.onload = () => {
             if(tg.initDataUnsafe.user) document.getElementById('greeting-user').innerText = "@" + (tg.initDataUnsafe.user.username || "User");
+
+            // --- MONETAG AUTO START ---
+            // Jaise hi App load hoga, ye ads check karega (no reward, just display)
+            try {
+                if (typeof show_10545411 === 'function') {
+                    show_10545411({
+                        type: 'inApp',
+                        inAppSettings: {
+                            frequency: 2,
+                            capping: 0.1,
+                            interval: 30,
+                            timeout: 5,
+                            everyPage: false
+                        }
+                    });
+                    console.log("Monetag Interstitial Initialized");
+                }
+            } catch(e) {
+                console.log("Monetag script not loaded yet");
+            }
+
             updateUI();
         };
     </script>
 </body>
-    </html>
-    
+</html>
