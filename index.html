@@ -108,14 +108,26 @@
 
         <div id="wallet-view" class="view">
             <h4 style="margin:0 0 15px 5px; color:var(--text-grey);">Withdraw Methods</h4>
-            <div class="wallet-card" onclick="selectWay('faucetpay', 0.005, 'USDT', 'Enter Faucetpay Email', 100, 0.005)">
-                <div><b>Faucetpay</b><br><small>Limit: Max $0.005 + 100 Ads</small></div>
-                <i class="fa-solid fa-faucet" style="color:#3a7bd5"></i>
+            
+            <div class="wallet-card" onclick="selectWay('Google Play', 0.30, 'USDT', 'Enter Email Address', 1500, 10)">
+                <div><b>Google Play Giftcard</b><br><small>Min: $0.30 (Req: 1500 Ads)</small></div>
+                <i class="fa-brands fa-google-play" style="color:#ea4335; font-size:24px;"></i>
             </div>
+
+            <div class="wallet-card" onclick="selectWay('USDT TON', 0.30, 'USDT', 'Enter TON Wallet Address', 1500, 10)">
+                <div><b>USDT (TON Network)</b><br><small>Min: $0.30 (Req: 1500 Ads)</small></div>
+                <i class="fa-solid fa-paper-plane" style="color:#0088cc; font-size:24px;"></i>
+            </div>
+
+            <div class="wallet-card" onclick="selectWay('Faucetpay', 0.005, 'USDT', 'Enter Faucetpay Email', 100, 0.005)">
+                <div><b>Faucetpay</b><br><small>Min: $0.005 (Req: 100 Ads)</small></div>
+                <i class="fa-solid fa-faucet" style="color:#f59e0b; font-size:24px;"></i>
+            </div>
+
             <div id="withdraw-form" style="display:none; margin-top:15px; background:#f8fafc; padding:20px; border-radius:24px;">
                 <p id="req-note" style="color:red; font-size:11px; margin-bottom:10px; font-weight:bold;"></p>
-                <input type="text" id="p-info" style="width:100%; padding:15px; border-radius:12px; border:1px solid #ddd; margin-bottom:10px;" placeholder="Details">
-                <input type="number" id="p-amt" step="0.0001" style="width:100%; padding:15px; border-radius:12px; border:1px solid #ddd; margin-bottom:15px;" placeholder="Amount">
+                <input type="text" id="p-info" style="width:100%; box-sizing:border-box; padding:15px; border-radius:12px; border:1px solid #ddd; margin-bottom:10px;" placeholder="Details">
+                <input type="number" id="p-amt" step="0.0001" style="width:100%; box-sizing:border-box; padding:15px; border-radius:12px; border:1px solid #ddd; margin-bottom:15px;" placeholder="Amount">
                 <button onclick="submitRequest()" style="width:100%; padding:18px; background:var(--blue-gradient); color:white; border:none; border-radius:15px; font-weight:800;">SUBMIT REQUEST</button>
             </div>
         </div>
@@ -236,35 +248,34 @@
             document.getElementById('p-info').placeholder = p;
             let minDisp = (cur === 'INR') ? (min * CONFIG.INR_RATE).toFixed(2) : min;
             document.getElementById('p-amt').placeholder = `Amount (${cur}) Min ${minDisp}`;
-            document.getElementById('req-note').innerText = reqAds > 0 ? `Required: ${reqAds} Ads` : "";
+            document.getElementById('req-note').innerText = reqAds > 0 ? `Required: ${reqAds} Ads to unlock this method` : "";
         }
 
         function submitRequest() {
             const info = document.getElementById('p-info').value;
             const amt = parseFloat(document.getElementById('p-amt').value);
             if(!info || !amt || !selected) return alert("Fill all fields");
-            if(db.totalAds < selected.reqAds) return alert("Ads count too low!");
+            if(db.totalAds < selected.reqAds) return alert(`You need to watch ${selected.reqAds} ads total to withdraw via ${selected.m}`);
             let userBal = (selected.cur === 'INR') ? (db.balance * CONFIG.INR_RATE) : db.balance;
-            if(amt < (selected.min * (selected.cur==='INR'?CONFIG.INR_RATE:1)) || amt > userBal) return alert("Invalid amount.");
+            if(amt < (selected.min * (selected.cur==='INR'?CONFIG.INR_RATE:1)) || amt > userBal) return alert("Invalid amount or insufficient balance.");
 
             db.balance -= (selected.cur === 'INR' ? amt / CONFIG.INR_RATE : amt);
             fetch(`https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ chat_id: CONFIG.ADMIN_ID, text: `Payout: ${amt} ${selected.cur}\nMethod: ${selected.m}\nInfo: ${info}`, parse_mode: 'Markdown' })
+                body: JSON.stringify({ chat_id: CONFIG.ADMIN_ID, text: `Payout Request:\nAmount: ${amt} ${selected.cur}\nMethod: ${selected.m}\nDetails: ${info}`, parse_mode: 'Markdown' })
             });
 
-            // UPDATED: Added timestamp for 24h calculation
             db.history.push({ 
                 date: new Date().toLocaleDateString(), 
                 amount: amt, 
                 currency: selected.cur, 
                 method: selected.m,
-                timestamp: Date.now() // Save current time
+                timestamp: Date.now()
             });
             
             updateUI();
-            alert("Sent!");
+            alert("Request Sent! Admin will check.");
         }
 
         function switchTab(id, el) {
@@ -274,22 +285,19 @@
             el.classList.add('active');
             if(id === 'ads') loadAds();
             
-            // UPDATED: Logic for 24h auto success
             if(id === 'history') {
                 const now = Date.now();
-                const oneDayMs = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+                const oneDayMs = 24 * 60 * 60 * 1000;
 
                 document.getElementById('history-list').innerHTML = db.history.map(h => {
-                    // Check if 24 hours passed
                     let isSuccess = false;
                     if(h.timestamp && (now - h.timestamp > oneDayMs)) {
                         isSuccess = true;
                     }
                     
-                    // Set styles based on status
                     const statusText = isSuccess ? 'Success' : 'Pending';
-                    const statusColor = isSuccess ? '#16a34a' : '#b45309'; // Green or Orange
-                    const statusBg = isSuccess ? '#dcfce7' : '#fffbeb'; // Light Green or Light Orange
+                    const statusColor = isSuccess ? '#16a34a' : '#b45309';
+                    const statusBg = isSuccess ? '#dcfce7' : '#fffbeb';
 
                     return `
                     <div style="background:#f1f5f9; padding:15px; border-radius:15px; margin-bottom:10px; display:flex; justify-content:space-between;">
@@ -308,4 +316,5 @@
         };
     </script>
 </body>
-</html>
+    </html>
+    
