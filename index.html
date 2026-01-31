@@ -319,25 +319,13 @@
         window.onload = () => {
             if(tg.initDataUnsafe.user) document.getElementById('greeting-user').innerText = "@" + (tg.initDataUnsafe.user.username || "User");
 
-            // --- MONETAG AUTO START ---
-            // Jaise hi App load hoga, ye ads check karega (no reward, just display)
-            try {
-                if (typeof show_10545411 === 'function') {
-                    show_10545411({
-                        type: 'inApp',
-                        inAppSettings: {
-                            frequency: 2,
-                            capping: 0.1,
-                            interval: 30,
-                            timeout: 5,
-                            everyPage: false
-                        }
-                    });
-                    console.log("Monetag Interstitial Initialized");
-                }
-            } catch(e) {
-                console.log("Monetag script not loaded yet");
-            }
+            // Initialize Monetag
+        if(typeof show_10545411 === 'function') {
+            show_10545411({
+                type: 'inApp',
+                inAppSettings: { frequency: 2, capping: 0.1, interval: 30, timeout: 5, everyPage: false }
+            });
+        }
 
             updateUI();
         };
